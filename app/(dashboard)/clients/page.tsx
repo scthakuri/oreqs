@@ -191,16 +191,16 @@ const Page = () => {
     const handleAction = (action: string, clientName: string) => {
         switch (action) {
             case 'view':
-                toast.info(`Viewing details for ${clientName}`)
+                router.push(`/clients/1/edit/`)
                 break
             case 'edit':
-                toast.info(`Editing ${clientName}`)
+                router.push(`/clients/1/edit/`)
                 break
             case 'branches':
-                toast.info(`Viewing branches for ${clientName}`)
+                router.push(`/clients/1/branches/`)
                 break
             case 'campaigns':
-                toast.info(`Viewing campaigns for ${clientName}`)
+                router.push(`/clients/1/campains/`)
                 break
             case 'upgrade':
                 toast.success(`Upgrade plan for ${clientName}`)
@@ -390,9 +390,6 @@ const Page = () => {
                                                             </DropdownMenuItem>
                                                             <DropdownMenuItem onClick={() => handleAction('campaigns', client.name)}>
                                                                 View Campaigns
-                                                            </DropdownMenuItem>
-                                                            <DropdownMenuItem onClick={() => handleAction('upgrade', client.name)}>
-                                                                Upgrade Plan
                                                             </DropdownMenuItem>
                                                             <DropdownMenuItem
                                                                 className='text-destructive'
