@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/select'
 import {Tabs, TabsContent, TabsList, TabsTrigger} from '@/components/ui/tabs'
 import {Badge} from '@/components/ui/badge'
-import {TrendingUp, TrendingDown, Users, Scan, Gift, MessageSquare} from 'lucide-react'
+import {TrendingUp, TrendingDown, Scan, Gift} from 'lucide-react'
 import {
     LineChart,
     Line,
@@ -338,7 +338,7 @@ const Page = () => {
                                             cx='50%'
                                             cy='50%'
                                             labelLine={false}
-                                            label={({country, percent}) => `${country}: ${(percent * 100).toFixed(0)}%`}
+                                            label={({percent}) => `${percent ? (percent * 100).toFixed(0) : 0}%`}
                                             outerRadius={100}
                                             fill='#8884d8'
                                             dataKey='value'
