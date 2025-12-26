@@ -11,6 +11,7 @@ import {
     Bell,
     Shield,
     Globe,
+    Mail,
 } from 'lucide-react'
 import {type SidebarData} from '@/types/sidebar'
 
@@ -54,6 +55,21 @@ export const sidebarData: SidebarData = {
                     title: 'Campaigns',
                     url: '/campaigns',
                     icon: Megaphone,
+                },
+            ],
+        },
+        {
+            title: 'Marketing',
+            items: [
+                {
+                    title: 'SMS Marketing',
+                    url: '/marketing/sms',
+                    icon: MessageSquare,
+                },
+                {
+                    title: 'Email Marketing',
+                    url: '/marketing/email',
+                    icon: Mail,
                 },
             ],
         },
