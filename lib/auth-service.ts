@@ -49,11 +49,10 @@ export const authService = {
     },
 
     async getCurrentUser(): Promise<User> {
-        const session = await this.getSession();
-        if (!session.user) {
-            throw new Error('Not authenticated');
-        }
-        return session.user;
+        // Fetch fresh user data from backend to get latest permissions
+        // This calls /api/auth/me which fetches from Django and updates session
+        const response = await axiosClient.get<User>('/api/auth/me');
+        return response.data;
     },
 
     async changePassword(currentPassword: string, newPassword: string): Promise<void> {

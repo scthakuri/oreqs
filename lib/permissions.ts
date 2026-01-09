@@ -98,3 +98,47 @@ export function canAccessManagement(user: User | null): boolean {
         'manage_countries'
     ]);
 }
+
+export function getRoleDisplayName(role: string | undefined): string {
+    if (!role) return 'Unknown';
+
+    const roleMap: Record<string, string> = {
+        'superadmin': 'Super Admin',
+        'countryadmin': 'Country Admin',
+        'dealer': 'Dealer',
+        'client': 'Client',
+        'client_user': 'Client User',
+        'branch': 'Branch',
+        'branch_user': 'Branch User',
+        'user': 'User',
+    };
+
+    return roleMap[role] || role.charAt(0).toUpperCase() + role.slice(1);
+}
+
+export function getUserRole(user: User | null): string {
+    if (!user) return 'guest';
+
+    if (user.is_superadmin) return 'superadmin';
+    if (user.is_countryadmin) return 'countryadmin';
+    if (user.is_dealer) return 'dealer';
+    if (user.is_client_user) return 'client_user';
+    if (user.is_branch_user) return 'branch_user';
+
+    return user.role || 'user';
+}
+
+export function getRoleBadgeVariant(role: string): 'default' | 'secondary' | 'destructive' | 'outline' {
+    const variantMap: Record<string, 'default' | 'secondary' | 'destructive' | 'outline'> = {
+        'superadmin': 'destructive',
+        'countryadmin': 'default',
+        'dealer': 'secondary',
+        'client': 'outline',
+        'client_user': 'outline',
+        'branch': 'secondary',
+        'branch_user': 'secondary',
+        'user': 'outline',
+    };
+
+    return variantMap[role] || 'outline';
+}

@@ -151,6 +151,13 @@ const createUniversalAxios = (): AxiosInstance => {
                 }
             }
 
+            // Handle 403 Forbidden - permissions changed
+            if (error.response?.status === 403 && typeof window !== 'undefined') {
+                console.log('[Axios] 403 error detected, dispatching permission-denied event');
+                // Trigger custom event to refresh user data
+                window.dispatchEvent(new CustomEvent('permission-denied'));
+            }
+
             return Promise.reject(error);
         }
     );

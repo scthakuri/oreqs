@@ -12,7 +12,10 @@ import {
     KeyRound,
     Settings,
     Building,
-    UsersRound, Group, LucideProps,
+    UsersRound,
+    Group,
+    LucideProps,
+    FileText,
 } from 'lucide-react';
 import { type User } from './session';
 import { hasPermission } from './permissions';
@@ -24,6 +27,7 @@ export interface NavItem {
     icon: ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>;
     badge?: string;
     disabled?: boolean;
+    items?: NavItem[];
 }
 
 export interface NavGroup {
@@ -44,13 +48,13 @@ export function getSidebarMenu(user: User | null): NavGroup[] {
         }
     ];
 
-    if (hasPermission(user, 'view_analytics')) {
-        overviewItems.push({
-            title: 'Analytics',
-            url: '/admin/analytics',
-            icon: BarChart3,
-        });
-    }
+    // if (hasPermission(user, 'view_analytics')) {
+    //     overviewItems.push({
+    //         title: 'Analytics',
+    //         url: '/admin/analytics',
+    //         icon: BarChart3,
+    //     });
+    // }
 
     navGroups.push({
         title: 'Overview',
@@ -143,6 +147,33 @@ export function getSidebarMenu(user: User | null): NavGroup[] {
             title: 'Integration',
             url: '/admin/marketing/integration',
             icon: Settings,
+        });
+    }
+
+    const reportSubItems: NavItem[] = [];
+
+    if (hasPermission(user, 'view_email_marketing')) {
+        reportSubItems.push({
+            title: 'Email Reports',
+            url: '/admin/marketing/reports/email',
+            icon: Mail,
+        });
+    }
+
+    if (hasPermission(user, 'view_sms_marketing')) {
+        reportSubItems.push({
+            title: 'SMS Reports',
+            url: '/admin/marketing/reports/sms',
+            icon: MessageSquare,
+        });
+    }
+
+    if (reportSubItems.length > 0) {
+        marketingItems.push({
+            title: 'Reports',
+            url: '/admin/marketing/reports',
+            icon: FileText,
+            items: reportSubItems,
         });
     }
 
