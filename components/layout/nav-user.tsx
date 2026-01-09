@@ -1,14 +1,17 @@
-import Link from 'next/link'
+'use client';
+
+import { useState } from 'react';
+import Link from 'next/link';
 import {
     BadgeCheck,
     Bell,
     ChevronsUpDown,
-    CreditCard,
+    KeyRound,
     LogOut,
-    Sparkles,
-} from 'lucide-react'
-import useDialogState from '@/hooks/use-dialog-state'
-import {Avatar, AvatarFallback, AvatarImage} from '@/components/ui/avatar'
+    User as UserIcon,
+} from 'lucide-react';
+import useDialogState from '@/hooks/use-dialog-state';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -17,26 +20,27 @@ import {
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+} from '@/components/ui/dropdown-menu';
 import {
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
     useSidebar,
-} from '@/components/ui/sidebar'
-import {SignOutDialog} from '@/components/sign-out-dialog'
+} from '@/components/ui/sidebar';
+import { SignOutDialog } from '@/components/sign-out-dialog';
+import { ChangePasswordDialog } from '@/components/auth/change-password-dialog'; // Import the new dialog
+import { useAuth } from '@/context/auth-provider';
 
-type NavUserProps = {
-    user: {
-        name: string
-        email: string
-        avatar: string
-    }
-}
+export function NavUser() {
+    const { isMobile } = useSidebar();
+    const [openSignOutDialog, setOpenSignOutDialog] = useDialogState();
+    const [showChangePasswordDialog, setShowChangePasswordDialog] = useState(false); // State for Change Password Dialog
+    const { user } = useAuth();
 
-export function NavUser({user}: NavUserProps) {
-    const {isMobile} = useSidebar()
-    const [open, setOpen] = useDialogState()
+    if (!user) return null;
+
+    const userName = `${user.first_name} ${user.last_name}`.trim() || user.email;
+    const userInitials = (user.first_name?.[0] || '') + (user.last_name?.[0] || '') || user.email?.[0]?.toUpperCase() || 'U';
 
     return (
         <>
@@ -49,14 +53,16 @@ export function NavUser({user}: NavUserProps) {
                                 className='data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground'
                             >
                                 <Avatar className='h-8 w-8 rounded-lg'>
-                                    <AvatarImage src={user.avatar} alt={user.name}/>
-                                    <AvatarFallback className='rounded-lg'>SN</AvatarFallback>
+                                    <AvatarImage src='' alt={userName} />
+                                    <AvatarFallback className='rounded-lg uppercase'>
+                                        {userInitials}
+                                    </AvatarFallback>
                                 </Avatar>
                                 <div className='grid flex-1 text-start text-sm leading-tight'>
-                                    <span className='truncate font-semibold'>{user.name}</span>
+                                    <span className='truncate font-semibold'>{userName}</span>
                                     <span className='truncate text-xs'>{user.email}</span>
                                 </div>
-                                <ChevronsUpDown className='ms-auto size-4'/>
+                                <ChevronsUpDown className='ms-auto size-4' />
                             </SidebarMenuButton>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent
@@ -68,49 +74,42 @@ export function NavUser({user}: NavUserProps) {
                             <DropdownMenuLabel className='p-0 font-normal'>
                                 <div className='flex items-center gap-2 px-1 py-1.5 text-start text-sm'>
                                     <Avatar className='h-8 w-8 rounded-lg'>
-                                        <AvatarImage src={user.avatar} alt={user.name}/>
-                                        <AvatarFallback className='rounded-lg'>SN</AvatarFallback>
+                                        <AvatarImage src='' alt={userName} />
+                                        <AvatarFallback className='rounded-lg uppercase'>
+                                            {userInitials}
+                                        </AvatarFallback>
                                     </Avatar>
                                     <div className='grid flex-1 text-start text-sm leading-tight'>
-                                        <span className='truncate font-semibold'>{user.name}</span>
+                                        <span className='truncate font-semibold'>{userName}</span>
                                         <span className='truncate text-xs'>{user.email}</span>
                                     </div>
                                 </div>
                             </DropdownMenuLabel>
-                            <DropdownMenuSeparator/>
-                            <DropdownMenuGroup>
-                                <DropdownMenuItem>
-                                    <Sparkles/>
-                                    Upgrade to Pro
-                                </DropdownMenuItem>
-                            </DropdownMenuGroup>
-                            <DropdownMenuSeparator/>
+                            <DropdownMenuSeparator />
                             <DropdownMenuGroup>
                                 <DropdownMenuItem asChild>
-                                    <Link href='/settings/account'>
-                                        <BadgeCheck/>
-                                        Account
+                                    <Link href='/admin/settings/profile'>
+                                        <UserIcon />
+                                        Profile
                                     </Link>
                                 </DropdownMenuItem>
-                                <DropdownMenuItem asChild>
-                                    <Link href='/settings'>
-                                        <CreditCard/>
-                                        Billing
-                                    </Link>
+                                <DropdownMenuItem onClick={() => setShowChangePasswordDialog(true)}> {/* Modified */}
+                                    <KeyRound />
+                                    Change Password
                                 </DropdownMenuItem>
                                 <DropdownMenuItem asChild>
-                                    <Link href='/settings/notifications'>
-                                        <Bell/>
+                                    <Link href='/admin/settings/notifications'>
+                                        <Bell />
                                         Notifications
                                     </Link>
                                 </DropdownMenuItem>
                             </DropdownMenuGroup>
-                            <DropdownMenuSeparator/>
+                            <DropdownMenuSeparator />
                             <DropdownMenuItem
                                 variant='destructive'
-                                onClick={() => setOpen(true)}
+                                onClick={() => setOpenSignOutDialog(true)}
                             >
-                                <LogOut/>
+                                <LogOut />
                                 Sign out
                             </DropdownMenuItem>
                         </DropdownMenuContent>
@@ -118,7 +117,8 @@ export function NavUser({user}: NavUserProps) {
                 </SidebarMenuItem>
             </SidebarMenu>
 
-            <SignOutDialog open={!!open} onOpenChange={setOpen}/>
+            <SignOutDialog open={!!openSignOutDialog} onOpenChange={setOpenSignOutDialog} />
+            <ChangePasswordDialog open={showChangePasswordDialog} onOpenChange={setShowChangePasswordDialog} /> {/* Render the new dialog */}
         </>
-    )
+    );
 }

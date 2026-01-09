@@ -28,12 +28,12 @@ export const sidebarData: SidebarData = {
             items: [
                 {
                     title: 'Dashboard',
-                    url: '/',
+                    url: '/admin',
                     icon: LayoutDashboard,
                 },
                 {
                     title: 'Analytics',
-                    url: '/analytics',
+                    url: '/admin/analytics',
                     icon: BarChart3,
                 },
             ],
@@ -42,18 +42,23 @@ export const sidebarData: SidebarData = {
             title: 'Management',
             items: [
                 {
+                    title: 'Country Admins',
+                    url: '/admin/country-admins',
+                    icon: UserCog,
+                },
+                {
                     title: 'Dealers',
-                    url: '/dealers',
+                    url: '/admin/dealers',
                     icon: Users,
                 },
                 {
                     title: 'Clients',
-                    url: '/clients',
+                    url: '/admin/clients',
                     icon: Building2,
                 },
                 {
                     title: 'Campaigns',
-                    url: '/campaigns',
+                    url: '/admin/campaigns',
                     icon: Megaphone,
                 },
             ],
@@ -63,12 +68,12 @@ export const sidebarData: SidebarData = {
             items: [
                 {
                     title: 'SMS Marketing',
-                    url: '/marketing/sms',
+                    url: '/admin/marketing/sms',
                     icon: MessageSquare,
                 },
                 {
                     title: 'Email Marketing',
-                    url: '/marketing/email',
+                    url: '/admin/marketing/email',
                     icon: Mail,
                 },
             ],
@@ -78,12 +83,12 @@ export const sidebarData: SidebarData = {
             items: [
                 {
                     title: 'SMS Credits',
-                    url: '/sms-credits',
+                    url: '/admin/sms-credits',
                     icon: MessageSquare,
                 },
                 {
                     title: 'Billing',
-                    url: '/billing',
+                    url: '/admin/billing',
                     icon: CreditCard,
                 },
             ],
@@ -97,22 +102,22 @@ export const sidebarData: SidebarData = {
                     items: [
                         {
                             title: 'Profile',
-                            url: '/settings/profile',
+                            url: '/admin/settings/profile',
                             icon: UserCog,
                         },
                         {
                             title: 'Notifications',
-                            url: '/settings/notifications',
+                            url: '/admin/settings/notifications',
                             icon: Bell,
                         },
                         {
                             title: 'Security',
-                            url: '/settings/security',
+                            url: '/admin/settings/security',
                             icon: Shield,
                         },
                         {
                             title: 'Countries',
-                            url: '/settings/countries',
+                            url: '/admin/settings/countries',
                             icon: Globe,
                         },
                     ],

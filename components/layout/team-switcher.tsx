@@ -22,8 +22,15 @@ const countries = [
     {code: 'NP', name: 'Nepal', flag: '🇳🇵', domain: 'oreqs.com.np'},
 ]
 
+type Team = {
+    code: string;
+    name: string;
+    flag: string;
+    domain: string;
+}
+
 type TeamSwitcherProps = {
-    teams?: any[]
+    teams?: Team[]
 }
 
 export function TeamSwitcher({teams}: TeamSwitcherProps) {

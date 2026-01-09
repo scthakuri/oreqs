@@ -21,7 +21,7 @@ export function AppTitle() {
                 >
                     <div>
                         <Link
-                            href='/'
+                            href='/admin'
                             onClick={() => setOpenMobile(false)}
                             className='grid flex-1 text-start text-sm leading-tight'
                         >

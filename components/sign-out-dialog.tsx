@@ -1,14 +1,20 @@
-import {ConfirmDialog} from '@/components/confirm-dialog'
+'use client';
+
+import { useAuth } from '@/context/auth-provider';
+import { ConfirmDialog } from '@/components/confirm-dialog';
 
 interface SignOutDialogProps {
-    open: boolean
-    onOpenChange: (open: boolean) => void
+    open: boolean;
+    onOpenChange: (open: boolean) => void;
 }
 
-export function SignOutDialog({open, onOpenChange}: SignOutDialogProps) {
-    const handleSignOut = () => {
+export function SignOutDialog({ open, onOpenChange }: SignOutDialogProps) {
+    const { logout } = useAuth();
 
-    }
+    const handleSignOut = async () => {
+        await logout();
+        onOpenChange(false);
+    };
 
     return (
         <ConfirmDialog
@@ -21,5 +27,5 @@ export function SignOutDialog({open, onOpenChange}: SignOutDialogProps) {
             handleConfirm={handleSignOut}
             className='sm:max-w-sm'
         />
-    )
+    );
 }
